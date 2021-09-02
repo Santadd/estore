@@ -1,0 +1,63 @@
+{% extends "includes/prod_layout.html" %}
+{% from "helpers/form_helper.html" import render_field %}
+{% block content %}
+<div class="page-inner">
+    <div id="main-wrapper" style="margin-left: 14.8%;">
+        <div class="col-md-8" style="margin-bottom: -2%;"> 
+            {% include "helpers/messages.html" %}
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <div class="row" style="margin-left: 15%;">
+            {% if brand %}
+            <div class="col-md-8">
+                <div class="page-title">
+                    <h3 class="breadcrumb-header"><b>Update Brand</b></h3>
+                </div>
+                <div class="panel-white">
+                    <div class="panel-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {{ form.csrf_token }}
+                            <div>
+                                {{ render_field(form.name, class="form-control", value=brand.name) }}
+                            </div>
+                            <br>
+                            <div>
+                                <input type="submit" value="Update" class="btn btn-primary">
+                                
+                            </div>
+                        </form>
+                        <a href="{{ url_for('products.view_brands') }}" class="btn btn-warning" style="margin-top: -8%; margin-left: 15%;">Cancel</a>
+                    </div>
+                </div>
+            </div>
+            {% elif category %}
+            <div class="col-md-8">
+                <div class="page-title">
+                    <h3 class="breadcrumb-header"><b>Update Category</b></h3>
+                </div>
+                <div class="panel-white">
+                    <div class="panel-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {{ form.csrf_token }}
+                            <div>
+                                {{ render_field(form.name, class="form-control", value=category.name) }}
+                            </div>
+                            <br>
+                            <div>
+                                <input type="submit" value="Update" class="btn btn-primary">
+                            </div>
+                        </form>
+                        <a href="{{ url_for('products.view_categories') }}" class="btn btn-warning" style="margin-top: -8%; margin-left: 15%;">Cancel</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div><!-- Row -->
+    </div><!-- Main Wrapper -->
+    <div class="page-footer">
+        <p>Made with <i class="fa fa-heart"></i> by stacks</p>
+    </div>
+</div>
+{% endblock content %}
