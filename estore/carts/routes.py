@@ -59,6 +59,7 @@ def cart_items():
     vat = 0
     grand_total = 0
     shipping_fee = 125
+    
     if 'Shoppingcart' not in session or len(session['Shoppingcart']) <=0:
         return redirect(url_for('main.home'))
     #If items are there, calculate grandtotal of items
@@ -119,7 +120,7 @@ def clear_cart():
     try:
         #Remove Shoppingcart session
         session.pop('Shoppingcart', None)
-        return redirect(url_for('main.home'))
+        return redirect(url_for('main.home')) 
     except Exception as e:
         print(e)
         return redirect(url_for('main.home'))                 

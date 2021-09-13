@@ -159,7 +159,7 @@ def update_product(id):
     form.descr.data = product.descr
     return render_template('products/update_product.html', title='Update Product Page', form=form, product=product)
 
-#Route to delete categories
+#Route to delete categories 
 @products.route('/delete_category/<int:id>/', methods=['POST'])
 def delete_category(id):
 

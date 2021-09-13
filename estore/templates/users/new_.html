@@ -1,0 +1,268 @@
+{% extends "includes/pages_layout.html" %}
+{% block content %}
+<!-- ========== MAIN CONTENT ========== -->
+<main id="content" role="main" class="checkout-page">
+    <!-- breadcrumb -->
+    <div class="bg-gray-13 bg-md-transparent">
+        <div class="container">
+            {% include "helpers/messages.html" %}
+            <!-- breadcrumb -->
+            <div class="my-md-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="../home/index.html">Home</a>
+                        </li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">Checkout
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- End breadcrumb -->
+        </div>
+    </div>
+    <!-- End breadcrumb -->
+
+    <div class="container">
+        <div class="mb-5">
+            <h1 class="text-center">Order Details</h1>
+        </div>
+
+
+        <div class="col-md-12">
+
+            <span class="pb-2 font-size-18" style="float: right;"><strong>Invoice:</strong> {{ orders.invoice }}</span>
+            <br><br>
+            <span class="pb-2 font-size-18"><strong>Name:</strong> {{ customer.first_name }}&nbsp;{{ customer.last_name
+                }}</span>
+            <br><br>
+            <span class="pb-2 font-size-18"><strong>Email:</strong> {{ customer.email }}</span>
+            <br><br>
+            <span class="pb-2 font-size-18"><strong>Contact:</strong> {{ address.mobile_no }}</span>
+            <br>
+        </div>
+        <hr>
+        <br>
+        <form class="js-validate" novalidate="novalidate">
+            <div class="row">
+                <div class="col-lg-5 order-lg-2 mb-7 mb-lg-0">
+                    <div class="pl-lg-3 ">
+                        <div class="bg-gray-1 rounded-lg">
+                            <!-- Order Summary -->
+                            <div class="p-4 mb-4 checkout-table">
+                                <!-- Title -->
+                                <div class="border-bottom border-color-1 mb-5">
+                                    <h3 class="section-title mb-0 pb-2 font-size-25">Your order</h3>
+                                </div>
+                                <!-- End Title -->
+                                <!-- Product Content -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="product-name">Product</th>
+                                            <th class="product-total">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for key, item in orders.orders.items() %}
+                                        <tr class="cart_item">
+                                            <td>{{ item.name }}&nbsp;
+                                                <strong class="product-quantity">× {{ item.quantity }}</strong>
+                                            </td>
+                                            <td>
+                                                {% set dis = "%.2f"|format(((100-item.discount)/100)) %}
+                                                ${{ "%.2f"|format(dis|float*(item.price)*(item.quantity|float)) }}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Subtotal</th>
+                                            <td>${{ "%.2f"|format(sub_total) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipping</th>
+                                            <td>Flat rate ${{ "%.2f"|format(shipping_fee) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>VAT</th>
+                                            <td>Flat rate ${{ "%.2f"|format(vat) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Grand Total</th>
+                                            <td><strong>${{ "%.2f"|format(grand_total) }}</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <!-- End Product Content -->
+                            </div>
+                            <!-- End Order Summary -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7 order-lg-1">
+                    <div class="pb-7 mb-7">
+                        <!-- Title -->
+                        <div class="border-bottom border-color-1 mb-5">
+                            <h3 class="section-title mb-0 pb-2 font-size-25">Billing details</h3>
+                        </div>
+                        <!-- End Title -->
+
+                        <!-- Order Form -->
+                        <div class="row">
+                            <div class="mb-10 cart-table">
+                                <form class="mb-4" action="#" method="post">
+                                    <table class="table" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th class="product-no">SN</th>
+                                                <th class="product-name">Product</th>
+                                                <th class="product-color">Color</th>
+                                                <th class="product-price">Price</th>
+                                                <th class="product-quantity w-lg-15">Quantity</th>
+                                                <th class="product-subtotal">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for key, item in orders.orders.items() %}
+                                            <tr class="">
+                                                <td data-title="Number">
+                                                    <a href="#" class="text-gray-90">{{ loop.index }}</a>
+                                                </td>
+
+                                                <td data-title="Product">
+                                                    <a href="#" class="text-gray-90">{{ item.name }}</a>
+                                                </td>
+
+                                                <td data-title="Color">
+                                                    <a href="#" class="text-gray-90">{{ item.color }}</a>
+                                                </td>
+
+                                                <td data-title="Price">
+                                                    <span class="">${{ item.price }}</span>
+                                                </td>
+
+                                                <td data-title="Quantity">
+                                                    <span class="">{{ item.quantity }}</span>
+                                                </td>
+
+                                                <td data-title="Total">
+                                                    {% set dis = "%.2f"|format(((100-item.discount)/100)) %}
+                                                    <span class="">
+                                                        ${{ "%.2f"|format(dis|float*(item.price)*(item.quantity|float))
+                                                        }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            <tr>
+                                                <td colspan="6" class="border-top space-top-2 justify-content-center">
+                                                    <div class="pt-md-3">
+                                                        <div class="d-block d-md-flex flex-center-between">
+                                                            <div class="d-md-flex">
+                                                                <form action="">
+                                                                    <script src="https://checkout.flutterwave.com/v3.js"></script>
+                                                                    <button type="button" onclick="makePayment()"
+                                                                    class="btn btn-soft-secondary mb-3 mb-md-0 font-weight-normal px-5 px-md-4 px-lg-5 w-100 w-md-auto">
+                                                                    Update cart
+                                                                </button>
+                                                                </form>
+                                                                <script>
+                                                                    function makePayment() {
+                                                                      FlutterwaveCheckout({
+                                                                        public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
+                                                                        tx_ref: "RX1",
+                                                                        amount: 10,
+                                                                        currency: "USD",
+                                                                        country: "US",
+                                                                        payment_options: " ",
+                                                                        redirect_url: // specified redirect URL
+                                                                          "https://callbacks.piedpiper.com/flutterwave.aspx?ismobile=34",
+                                                                        meta: {
+                                                                          consumer_id: 23,
+                                                                          consumer_mac: "92a3-912ba-1192a",
+                                                                        },
+                                                                        customer: {
+                                                                          email: "cornelius@gmail.com",
+                                                                          phone_number: "08102909304",
+                                                                          name: "Flutterwave Developers",
+                                                                        },
+                                                                        callback: function (data) {
+                                                                          console.log(data);
+                                                                        },
+                                                                        onclose: function() {
+                                                                          // close modal
+                                                                        },
+                                                                        customizations: {
+                                                                          title: "My store",
+                                                                          description: "Payment for items in cart",
+                                                                          logo: "https://assets.piedpiper.com/logo.png",
+                                                                        },
+                                                                      });
+                                                                    }
+                                                                  </script>
+                                        
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                                <form action="{{ url_for('users.get_pdf', invoice=orders.invoice) }}" method="POST">
+                                    <button type="submit"
+                                        class="btn btn-primary-dark-w  ml-19  px-lg-5 w-100 w-md-auto d-none d-md-inline-block">
+                                        Get Invoice
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- End Order Form -->
+                        
+                          <script>
+                            function makePayment() {
+                              FlutterwaveCheckout({
+                                public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
+                                tx_ref: "RX1",
+                                amount: 10,
+                                currency: "GHS",
+                                country: "GH",
+                                payment_options: " ",
+                                redirect_url: // specified redirect URL
+                                  "https://callbacks.piedpiper.com/flutterwave.aspx?ismobile=34",
+                                meta: {
+                                  consumer_id: 23,
+                                  consumer_mac: "92a3-912ba-1192a",
+                                },
+                                customer: {
+                                  email: "cornelius@gmail.com",
+                                  phone_number: "0578908164",
+                                  name: "Flutterwave Developers",
+                                },
+                                callback: function (data) {
+                                  console.log(data);
+                                },
+                                onclose: function() {
+                                  // close modal
+                                },
+                                customizations: {
+                                  title: "My store",
+                                  description: "Payment for items in cart",
+                                  logo: "https://assets.piedpiper.com/logo.png",
+                                },
+                              });
+                            }
+                          </script>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+<!-- ========== END MAIN CONTENT ========== -->
+{% endblock content %}

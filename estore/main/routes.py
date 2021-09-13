@@ -32,7 +32,7 @@ def search_products():
 #Display categories
 @main.route('/prod_categories')
 def disp_categories():
-    products = Product.query.filter(Product.stock > 0).order_by(Product.id.desc()).limit(3).all()
+    products = Product.query.filter(Product.stock > 0).order_by(Product.id.desc()).limit(3).all() 
     categories = db.session.query(Categories).join(Product, Categories.id == Product.category_id)
     
     return render_template('main/product_categories.html', title='Categories Page', 

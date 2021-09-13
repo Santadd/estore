@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Title -->
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Eshop Page</title>
+    {% endif %}
+
+
+    <!-- Required Meta Tags Always Come First -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
+    
+    <!-- CSS Electro Template -->
+    <link rel="stylesheet" href="https://transvelo.github.io/electro-html/2.0/assets/css/theme.css">
+</head>
+
+
+<body>
+    <!-- ========== MAIN CONTENT ========== -->
+<main id="content" role="main" class="checkout-page">
+    <!-- breadcrumb -->
+    <div class="bg-gray-13 bg-md-transparent">
+        <div class="container">
+            <!-- breadcrumb --> 
+            <div class="my-md-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
+                        
+                    </ol>
+                </nav>
+            </div>
+            <!-- End breadcrumb -->
+        </div>
+    </div>
+    <!-- End breadcrumb -->
+
+    <div class="container mt-3">
+        <div class="mb-5">
+            <h1 class="text-center">Order Details</h1>
+        </div>        
+            <div class="row">
+                <div class="col-md-12 mb-12">
+                    <div class="">
+                        <div class="">
+                                <div style="display: inline-flex;">
+                                    <div class="col-md-12" style="padding-left:0;">
+                                        <h3 class="m-b-md m-t-xxs"><b>Santana Electronics</b></h3>
+                                        <address>
+                                            Kumasi-Adum, Ghana<br>
+                                            Phone: +(233) 57-890-8164
+                                        </address>
+                                    </div>
+                                    <div class="col-md-12 text-right" style="position: absolute; margin-left: -15px;">
+                                        <h4 class="" style="margin-right: 20px;"><strong>Invoice:</strong>
+                                            <span style="font-size: 15px;">{{ orders.invoice }}</span></h4>
+                                        
+                                        
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="padding-left:0;">
+                                    <hr>
+                                    <p>
+                                        <strong>Invoice to</strong><br>
+                                        {{ address.first_name }}&nbsp;{{ address.last_name }}<br>
+                                        {{ address.street_add }}<br>
+                                        {{ address.city }}, {{ address.postcode }} <br>
+                                        {{ address.country }}
+                                    </p>
+                                </div>
+                                <div class="col-md-12 mb-6 cart-table" style="padding-left:0;padding-right:0;">
+                                    <table class="table" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th class="product-no">SN</th>
+                                                <th class="product-name">Product</th>
+                                                <th class="product-color">Color</th>
+                                                <th class="product-price">Price</th>
+                                                <th class="product-quantity w-lg-15">Quantity</th>
+                                                <th class="product-subtotal">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for key, item in orders.orders.items() %} 
+                                            <tr class="">
+                                                <td data-title="Number">
+                                                    <a href="#" class="text-gray-90">{{ loop.index }}</a>
+                                                </td>
+
+                                                <td data-title="Product">
+                                                    <a href="#" class="text-gray-90">{{ item.name }}</a>
+                                                </td>
+
+                                                <td data-title="Color">
+                                                    <a href="#" class="text-gray-90">{{ item.color }}</a>
+                                                </td>
+            
+                                                <td data-title="Price">
+                                                    <span class="">${{ item.price }}</span>
+                                                </td>
+
+                                                <td data-title="Quantity">
+                                                    <span class="">{{ item.quantity }}</span>
+                                                </td>
+            
+                                                <td data-title="Total">
+                                                    {% set dis = "%.2f"|format(((100-item.discount)/100)) %}
+                                                    <span class="">
+                                                        ${{ "%.2f"|format(dis|float*(item.price)*(item.quantity|float)) }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr>
+                                <br>
+                                <div class="mb-12" style="display: inline-flex;">
+                                    <div class="row">
+                                        <div class="col-md-12" style="padding-left:0;">
+                                        <h4>Thank you!</h4>
+                                        <p>nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
+                                        <img src="http://via.placeholder.com/350x150?text=signature" height="150" class="m-t-lg" alt="">
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8" style="position: absolute;">
+                                            <div class="text-right" >
+                                                <h5>Subtotal</h5>
+                                                <span class="font-size-16">${{ "%.2f"|format(sub_total) }}</span>
+                                                <hr>
+                                                <h5>Shipping</h5>
+                                                <span class="font-size-16">Flat rate ${{ "%.2f"|format(shipping_fee) }}</span>
+                                                <hr>
+                                                <h5>VAT</h5>
+                                                <span class="font-size-16">${{ "%.2f"|format(vat) }}</span>
+                                                <hr>
+                                                <h4 class="text-success"><strong>Total</strong></h4>
+                                                <span class="text-success font-size-18"><strong>${{ "%.2f"|format(grand_total) }}</strong></span>
+                                                <hr>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+</main>
+</body>
+</html>

@@ -95,11 +95,11 @@
                                         <!-- End Language -->
                                     </div>
                                 </li>
-                                {% if current_user.is_authenticated %}
+                                {% if session.customer %}
                                 <li
                                     class="list-inline-item mr-0 u-header-topbar__nav-item u-header-topbar__nav-item-border">
                                     <a href="{{ url_for('users.customer_logout') }}" class="u-header-topbar__nav-link"><i
-                                            class="ec ec-user mr-1"></i> Logout</a>
+                                            class="ec ec-user mr-1"></i> Logout </a>
                                 </li>
                                 {% else %}
                                 <li

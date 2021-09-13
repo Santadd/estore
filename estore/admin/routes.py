@@ -13,7 +13,7 @@ admin = Blueprint('admin', __name__)
 @admin.route('/admin_register', methods=['GET','POST'])
 def admin_register():
     if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
+        return redirect(url_for('products.view_products'))
     form = AdminRegistrationForm()
     if form.validate_on_submit():
         hashed_pw = bcrypt.generate_password_hash(form.password.data)
@@ -21,13 +21,13 @@ def admin_register():
         db.session.add(admin)
         db.session.commit()
         flash(f"The username {form.username.data} has been registered successfully!", 'success')
-        return redirect(url_for('main.home')) 
+        return redirect(url_for('products.view_products')) 
     return render_template('admin/admin_register.html', title='Admin Register Page', form=form)
 
 @admin.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
     if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
+        return redirect(url_for('products.view_products'))
     form = AdminLoginForm()
     if form.validate_on_submit():
 
@@ -35,7 +35,8 @@ def admin_login():
         if admin and bcrypt.check_password_hash(admin.password, form.password.data):
             login_user(admin, remember=form.remember.data)
             flash(f'Login successful!', 'success')
-            return redirect(request.args.get('next') or url_for('main.home'))
+            next = request.args.get('next')
+            return redirect(next) if next else redirect(url_for('main.home'))
         else:
             flash(f'Incorrect email and password. Please try again!', 'danger')
     return render_template('admin/admin_login.html', title='Admin Login Page', form=form)
